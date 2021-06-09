@@ -8,11 +8,15 @@ function plotTraining(info, tickDist)
     plot(x, trainAcc);
     hold on
 
-    x = find(~isnan(info.ValidationAccuracy));
-    valAcc = info.ValidationAccuracy(x) / 100;
-    plot(x, valAcc);
+    if isfield(info, 'ValidationAccuracy')
+        x = find(~isnan(info.ValidationAccuracy));
+        valAcc = info.ValidationAccuracy(x) / 100;
+        plot(x, valAcc);
+        legend({'Entrenamiento', 'Validación'}, 'Location', 'southeast');
+    else
+        legend('Entrenamiento', 'Location', 'southeast')
+    end
 
-    legend({'Entrenamiento', 'Validación'}, 'Location', 'southeast');
     title('Precisión (accuracy)');
     yticks(0:.2:1);
     hold off
@@ -24,11 +28,15 @@ function plotTraining(info, tickDist)
     plot(x, trainLoss);
     hold on
 
-    x = find(~isnan(info.ValidationLoss));
-    valLoss = info.ValidationLoss(x);
-    plot(x, valLoss);
+    if isfield(info, 'ValidationLoss')
+        x = find(~isnan(info.ValidationLoss));
+        valLoss = info.ValidationLoss(x);
+        plot(x, valLoss);
+        legend({'Entrenamiento', 'Validación'});
+    else
+        legend('Entrenamiento');
+    end
 
-    legend({'Entrenamiento', 'Validación'});
     title('Error (loss)');
     hold off
 end
